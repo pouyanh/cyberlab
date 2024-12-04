@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"math/big"
 
+	"github.com/janstoon/toolbox/tricks"
 	"github.com/janstoon/toolbox/tricks/mathx"
 )
 
@@ -51,22 +52,13 @@ func (ke DiffieHellmanKeyExchange) PublicChannel() DiffieHellmanPublicChannel {
 
 // GuessDiffieHellmanSharedSecret tries to guess the shared secret using publicly exchanged parameters
 func (pc DiffieHellmanPublicChannel) GuessDiffieHellmanSharedSecret(pubKeyA, pubKeyB int) int {
-	prr := mathx.PrimitiveRootsWithRrs(pc.Modulus)
-	rrs, ok := prr[pc.Base]
-	if !ok {
-		return 0
+	rrs := mathx.OrderedReducedResidueSystem(pc.Modulus, pc.Base)
+	exponent := tricks.IndexOf(pubKeyB, rrs)
+
+	sharedSecret := 1
+	for i := 0; i <= exponent; i++ {
+		sharedSecret = (sharedSecret * pubKeyA) % pc.Modulus
 	}
 
-	for index, remainder := range rrs {
-		if remainder == pubKeyB {
-			sharedSecret := 1
-			for i := 0; i <= index; i++ {
-				sharedSecret = (sharedSecret * pubKeyA) % pc.Modulus
-			}
-
-			return sharedSecret
-		}
-	}
-
-	return 0
+	return sharedSecret
 }

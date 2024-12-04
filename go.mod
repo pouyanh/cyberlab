@@ -3,7 +3,7 @@ module github.com/pouyanh/cyberlab
 go 1.23.3
 
 require (
-	github.com/janstoon/toolbox/tricks v0.10.1-0.20241204163925-8e116dabe0f2
+	github.com/janstoon/toolbox/tricks v0.10.1-0.20241204231109-e5cc0cedf1cd
 	github.com/stretchr/testify v1.9.0
 )
 

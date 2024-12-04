@@ -1,5 +1,6 @@
 # CyberLab
 Some cybersecurity ideas & showcases
+
 Run tests to check the validity:
 ```shell
 go test ./...
@@ -47,7 +48,7 @@ Now that public parameters have been exchanged it's time for _Alice_ and _Bob_ t
 	```
 
 As it was expected they both calculated the same shared secret key
-using counterpart's public key and their own private keys: **sa = sb = 8**. Let's check if it's possible to calculate the same shared secret key without any knowledge of private keys (a and b):
+using counterpart's public key and their own private keys: **sa = sb = 8**. Let's check if it's possible to calculate the same shared secret key without any knowledge of private keys (**a** and **b**):
 1. Find one cycle of remainders of sequential powers (k) of the base (g) modulo the modulus (p) which results in
 one permutation of [reduced residue system][reduced-residue-system] modulo (p):
    * rrs = {r | r = g^k mod p and 0 < k <= φ(p) and k ∈ ℕ}

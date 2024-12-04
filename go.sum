@@ -1,7 +1,7 @@
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/janstoon/toolbox/tricks v0.10.1-0.20241204163925-8e116dabe0f2 h1:pmDPF6oPPRotwvDv8Syx07a0rN5mTIvDXccjkA+INro=
-github.com/janstoon/toolbox/tricks v0.10.1-0.20241204163925-8e116dabe0f2/go.mod h1:G5vKiYk5opiGDy9aYLmIVZ5pZYNwI5UGrw9gCtI7WlU=
+github.com/janstoon/toolbox/tricks v0.10.1-0.20241204231109-e5cc0cedf1cd h1:j5qIh1dqcm4Ukmu0vw/E76CPgP6vTIVlLSQza6EGKj4=
+github.com/janstoon/toolbox/tricks v0.10.1-0.20241204231109-e5cc0cedf1cd/go.mod h1:G5vKiYk5opiGDy9aYLmIVZ5pZYNwI5UGrw9gCtI7WlU=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
 github.com/stretchr/testify v1.9.0 h1:HtqpIVDClZ4nwg75+f6Lvsy/wHu+3BoSGCbBAcpTsTg=

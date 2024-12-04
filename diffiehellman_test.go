@@ -20,6 +20,7 @@ func TestGuessDiffieHellmanSharedSecret(t *testing.T) {
 		{5, 2},
 		{23, 0},
 		{23, 5},
+		{107, 63},
 	}
 
 	privateKeyPairs := []struct {
@@ -31,6 +32,7 @@ func TestGuessDiffieHellmanSharedSecret(t *testing.T) {
 		{9, 6}, {9, 5},
 		{7, 5}, {7, 6}, {7, 8},
 		{11, 5},
+		{110, 49}, {110, 50}, {110, 51},
 	}
 
 	for _, session := range sessions {
