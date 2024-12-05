@@ -19,10 +19,10 @@ who are going to generate the symmetric secret key individually.
 
 While two parties share neither their private keys (a: _Alice_'s secret, b: _Bob_'s secret) nor the shared secret key
 which they compute it individually after exchanging their public keys,
-the [GuessDiffieHellmanSharedSecret][guess-diffie-hellman-shared-secret-method] method illustrates
+the [DiscoverSharedSecret][discover-shared-secret-method] method illustrates
 how is it possible to regenerate the shared secret key by only using the publicly exchanged parameters
 without any knowledge of the private parameters and equal assertions are made in tests for different private key pairs
-in [the test file][guess-diffie-hellman-shared-secret-tests].
+in [the test file][discover-shared-secret-tests].
 
 ### Vulnerability described
 Suppose key exchange parties agreed on:
@@ -93,6 +93,6 @@ both **A** and **B** exist in the rrs. Find index of one of **A** or **B** in se
 
 [diffie-hellman]: https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange
 [primitive-root-n]: https://en.wikipedia.org/wiki/Primitive_root_modulo_n
-[guess-diffie-hellman-shared-secret-method]: https://github.com/pouyanh/cyberlab/blob/master/diffiehellman.go#L53
-[guess-diffie-hellman-shared-secret-tests]: https://github.com/pouyanh/cyberlab/blob/master/diffiehellman_test.go#L51
+[discover-shared-secret-method]: https://github.com/pouyanh/cyberlab/blob/master/diffiehellman.go#L78
+[discover-shared-secret-tests]: https://github.com/pouyanh/cyberlab/blob/master/diffiehellman_test.go#L53
 [reduced-residue-system]: https://en.wikipedia.org/wiki/Reduced_residue_system
