@@ -10,7 +10,7 @@ import (
 	"github.com/pouyanh/cyberlab"
 )
 
-func TestGuessDiffieHellmanSharedSecret(t *testing.T) {
+func TestDiscoverSharedSecret(t *testing.T) {
 	sessions := []struct {
 		modulus int
 		base    int
@@ -51,8 +51,10 @@ func TestGuessDiffieHellmanSharedSecret(t *testing.T) {
 			bobSharedSecret := ke.SharedSecret(AlicePublicKey, privateKeys.bob)
 			assert.Equal(t, aliceSharedSecret, bobSharedSecret)
 
-			assert.Equal(t, aliceSharedSecret, pc.GuessDiffieHellmanSharedSecret(AlicePublicKey, BobPublicKey))
-			assert.Equal(t, bobSharedSecret, pc.GuessDiffieHellmanSharedSecret(BobPublicKey, AlicePublicKey))
+			assert.Equal(t, aliceSharedSecret, pc.DiscoverSharedSecret(AlicePublicKey, BobPublicKey))
+			assert.Equal(t, bobSharedSecret, pc.DiscoverSharedSecret(BobPublicKey, AlicePublicKey))
+			assert.Equal(t, bobSharedSecret,
+				pc.WithPublicKeySelector(cyberlab.NearestPublicKeySelector).DiscoverSharedSecret(BobPublicKey, AlicePublicKey))
 		}
 	}
 }
