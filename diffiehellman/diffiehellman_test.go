@@ -1,4 +1,4 @@
-package cyberlab_test
+package diffiehellman_test
 
 import (
 	"math/rand"
@@ -7,7 +7,7 @@ import (
 	"github.com/janstoon/toolbox/tricks/mathx"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/pouyanh/cyberlab"
+	"github.com/pouyanh/cyberlab/diffiehellman"
 )
 
 func TestDiscoverSharedSecret(t *testing.T) {
@@ -40,7 +40,7 @@ func TestDiscoverSharedSecret(t *testing.T) {
 			prr := mathx.PrimitiveRoots(session.modulus)
 			session.base = prr[rand.Intn(len(prr))]
 		}
-		ke := cyberlab.NewDiffieHellmanKeyExchange(session.modulus, session.base)
+		ke := diffiehellman.NewKeyExchange(session.modulus, session.base)
 
 		pc := ke.PublicChannel()
 		for _, privateKeys := range privateKeyPairs {
@@ -53,8 +53,8 @@ func TestDiscoverSharedSecret(t *testing.T) {
 
 			assert.Equal(t, aliceSharedSecret, pc.DiscoverSharedSecret(AlicePublicKey, BobPublicKey))
 			assert.Equal(t, bobSharedSecret, pc.DiscoverSharedSecret(BobPublicKey, AlicePublicKey))
-			assert.Equal(t, bobSharedSecret,
-				pc.WithPublicKeySelector(cyberlab.NearestPublicKeySelector).DiscoverSharedSecret(BobPublicKey, AlicePublicKey))
+			assert.Equal(t, bobSharedSecret, pc.WithPublicKeySelector(diffiehellman.NearestPublicKeySelector).
+				DiscoverSharedSecret(BobPublicKey, AlicePublicKey))
 		}
 	}
 }

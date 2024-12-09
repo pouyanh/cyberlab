@@ -1,4 +1,4 @@
-package cyberlab
+package diffiehellman
 
 import (
 	"fmt"
@@ -9,36 +9,36 @@ import (
 	"github.com/janstoon/toolbox/tricks/mathx"
 )
 
-type DiffieHellmanKeyExchange struct {
+type KeyExchange struct {
 	modulus *big.Int // p
 	base    *big.Int // g
 }
 
-// NewDiffieHellmanKeyExchange initiates a diffie-hellman key exchange session
-func NewDiffieHellmanKeyExchange(modulus, base int) DiffieHellmanKeyExchange {
+// NewKeyExchange initiates a diffie-hellman key exchange session
+func NewKeyExchange(modulus, base int) KeyExchange {
 	if !mathx.IsPrimitiveRoot(modulus, base) {
 		panic(fmt.Errorf("expected base (%d) to be primitive root modulo of modulus (%d)", base, modulus))
 	}
 
-	return DiffieHellmanKeyExchange{
+	return KeyExchange{
 		modulus: big.NewInt(int64(modulus)),
 		base:    big.NewInt(int64(base)),
 	}
 }
 
 // PublicKey computes the public key using: base^secret % modulus
-func (ke DiffieHellmanKeyExchange) PublicKey(secret int) int {
+func (ke KeyExchange) PublicKey(secret int) int {
 	return int(big.NewInt(0).Exp(ke.base, big.NewInt(int64(secret)), ke.modulus).Int64())
 }
 
 // SharedSecret computes the secret key using other party's public key and self secret key:
 // counterpartPubKey^secret % modulus
-func (ke DiffieHellmanKeyExchange) SharedSecret(counterpartPubKey, secret int) int {
+func (ke KeyExchange) SharedSecret(counterpartPubKey, secret int) int {
 	return int(big.NewInt(0).Exp(big.NewInt(int64(counterpartPubKey)), big.NewInt(int64(secret)), ke.modulus).Int64())
 }
 
-// DiffieHellmanPublicChannel exposes the diffie-hellman publicly-exchanged parameters
-type DiffieHellmanPublicChannel struct {
+// PublicChannel exposes the diffie-hellman publicly-exchanged parameters
+type PublicChannel struct {
 	Modulus int // Key exchange session agreed modulus
 	Base    int // Key exchange session agreed base
 
@@ -58,8 +58,8 @@ var (
 )
 
 // PublicChannel returns public-channel of a diffie-hellman key exchange session
-func (ke DiffieHellmanKeyExchange) PublicChannel() DiffieHellmanPublicChannel {
-	return DiffieHellmanPublicChannel{
+func (ke KeyExchange) PublicChannel() PublicChannel {
+	return PublicChannel{
 		Modulus: int(ke.modulus.Int64()),
 		Base:    int(ke.base.Int64()),
 
@@ -67,7 +67,7 @@ func (ke DiffieHellmanKeyExchange) PublicChannel() DiffieHellmanPublicChannel {
 	}
 }
 
-func (pc DiffieHellmanPublicChannel) WithPublicKeySelector(pks PublicKeySelector) DiffieHellmanPublicChannel {
+func (pc PublicChannel) WithPublicKeySelector(pks PublicKeySelector) PublicChannel {
 	npc := pc
 	npc.pubKeySel = pks
 
@@ -75,13 +75,13 @@ func (pc DiffieHellmanPublicChannel) WithPublicKeySelector(pks PublicKeySelector
 }
 
 // DiscoverSharedSecret tries to guess the shared secret using publicly exchanged parameters
-func (pc DiffieHellmanPublicChannel) DiscoverSharedSecret(pubKeyA, pubKeyB int) int {
+func (pc PublicChannel) DiscoverSharedSecret(pubKeyA, pubKeyB int) int {
 	pubKey, exponent := pc.selectPublicKey(pubKeyA, pubKeyB)
 
 	return pc.generateSharedSecret(exponent, pubKey)
 }
 
-func (pc DiffieHellmanPublicChannel) selectPublicKey(pkk ...int) (int, int) {
+func (pc PublicChannel) selectPublicKey(pkk ...int) (int, int) {
 	rrs := mathx.OrderedReducedResidueSystem(pc.Modulus, pc.Base)
 	ii := tricks.Map(pkk, func(src int) int {
 		return slices.Index(rrs, src)
@@ -92,7 +92,7 @@ func (pc DiffieHellmanPublicChannel) selectPublicKey(pkk ...int) (int, int) {
 	return pkk[i], ii[i]
 }
 
-func (pc DiffieHellmanPublicChannel) generateSharedSecret(exponent, pubKey int) int {
+func (pc PublicChannel) generateSharedSecret(exponent, pubKey int) int {
 	sharedSecret := 1
 	for i := 0; i <= exponent; i++ {
 		sharedSecret = (sharedSecret * pubKey) % pc.Modulus
