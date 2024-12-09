@@ -50,7 +50,7 @@ the same shared secret key without any knowledge of private keys (**a** and **b*
 
      Calculating all rrs elements and searching it for the public-keys is actually a brute-force attack which is a
      costly action esp. when dealing with big numbers and this is a factor which protects diffie-hellman against
-     brut-force attack.
+     brute-force attack.
 2. As **g** is a primitive root of **p** and **B** and **A** are remainders of a power of **g** modulo **p**
 	 both **A** and **B** exist in the rrs. Find index of one of **A** or **B** in selected rrs:
 	 ```
